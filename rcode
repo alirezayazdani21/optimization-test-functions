@@ -1,0 +1,108 @@
+#####################################################
+#Ref: https://www.sfu.ca/~ssurjano/optimization.html
+#####################################################
+#optimization test functions 
+#####################################################
+library(dplyr)
+library(plotly)
+############################################
+############################################
+ackley <- function(x1, x2) {
+  a <- 20
+  b <- 0.2
+  c <- (2*pi)
+  d <- 2
+  fofx1 <- -a*exp(-b*sqrt(1/d*sum(c(x1,x2)^2))) -
+    exp(sum( cos(c*c(x1,x2))/d))+a+exp(1)
+  
+  #fofx2 <- -a*exp(-b*sqrt(sum(c(x1,x2)^2)/100))-
+  #          exp(sum( cos(c*c(x1,x2))/100))+a+exp(1)
+  return(fofx1)
+}
+
+Ackley <- Vectorize(ackley)
+
+x1 <- seq(-10,10,length=200)
+x2 <- seq(-10,10,length=200)
+z <- outer(x1, x2, FUN="Ackley")
+
+library(plotly)
+plot_ly(x=~x1, y=~x2, z = ~z, type="surface") %>% 
+  layout(scene=list(aspectratio = list(x = 1, y = 1, z = 1)))
+###########################################
+###########################################
+easom <- function(x1,x2){
+
+  #x1 <- xx[1]
+  #x2 <- xx[2]
+  
+  fact1 <- -cos(x1)*cos(x2)
+  fact2 <- exp(-(x1-pi)^2-(x2-pi)^2)
+  
+  y <- fact1*fact2
+  return(y)
+}
+
+Easom <- Vectorize(easom)
+
+x1 <- seq(-10,10,length=200)
+x2 <- seq(-10,10,length=200)
+z <- outer(x1, x2, FUN="Easom")
+
+
+plot_ly(x=~x1, y=~x2, z = ~z, type="surface") %>% 
+  layout(scene=list(aspectratio = list(x = 1, y = 1, z = 1)))
+
+###########################################
+###########################################
+drop <- function(x1,x2){
+
+  #x1 <- xx[1]
+  #x2 <- xx[2]
+  
+  frac1 <- 1 + cos(12*sqrt(x1^2+x2^2))
+  frac2 <- 0.5*(x1^2+x2^2) + 2
+  
+  y <- -frac1/frac2
+  return(y)
+}
+
+Drop <- Vectorize(drop)
+
+x1 <- seq(-10,10,length=200)
+x2 <- seq(-10,10,length=200)
+z <- outer(x1, x2, FUN="Drop")
+
+plot_ly(x=~x1, y=~x2, z = ~z, type="surface") %>% 
+  layout(scene=list(aspectratio = list(x = 1, y = 1, z = 1)))
+
+###########################################
+###########################################
+#RASTRIGIN FUNCTION
+#https://www.sfu.ca/~ssurjano/rastr.html
+
+rastr <- function(x1,x2)
+{
+  
+  # INPUT:
+  xx = c(x1, x2)
+  #d <- length(xx)
+  d<-2
+  
+  sum <- sum(xx^2 - 10*cos(2*pi*xx))
+  
+  y <- 10*d + sum
+  return(y)
+}
+
+Rastr <- Vectorize(rastr)
+
+x1 <- seq(-10,10,length=200)
+x2 <- seq(-10,10,length=200)
+#xx<-c(x1,x2)
+z <- outer(x1,x2, FUN="Rastr")
+
+plot_ly(x=~x1, y=~x2, z = ~z, type="surface") %>% 
+  layout(scene=list(aspectratio = list(x = 1, y = 1, z = 1)))
+
+
